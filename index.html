@@ -1,0 +1,341 @@
+
+<DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моей любимой Ксюшеньке</title>
+    <style>
+        :root {
+            --primary-color: #ff8fa3;
+            --secondary-color: #fff0f3;
+            --text-color: #4a4a4a;
+            --accent-color: #ff4d6d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #e0f2fe 100%);
+            color: var(--text-color);
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Стартовая заставка */
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff0f3 0%, #e0f2fe 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #welcome-overlay h2 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        /* Кнопка управления музыкой */
+        .music-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(255, 143, 163, 0.3);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            z-index: 1000;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .music-btn:hover { transform: scale(1.1); }
+        .music-btn.playing { animation: rotateMusic 4s linear infinite; background: var(--primary-color); }
+
+        @keyframes rotateMusic {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Горизонтальная карточка */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 25px;
+            max-width: 950px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(255, 143, 163, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* Левая колонка с большим фото */
+        .left-side {
+            flex: 0 0 320px;
+            text-align: center;
+        }
+
+        /* Правая колонка */
+        .right-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.2);
+        }
+
+        h1 { 
+            color: var(--accent-color); 
+            font-size: 1.7rem; 
+            margin-bottom: 12px; 
+            font-weight: 700; 
+        }
+
+        /* Большой круг для фото */
+        .photo-container {
+            width: 320px;
+            height: 320px;
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 6px solid white;
+            box-shadow: 0 8px 25px rgba(255, 143, 163, 0.35);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* ИЗМЕНЕНО: Опустили фото вниз на 10%, чтобы плакат ушел наверх, а лица Ксюши и мамы встали идеально */
+            object-position: center 10%; 
+        }
+
+        /* Блок пожеланий */
+        .wishes {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 18px;
+            border-radius: 16px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .wishes p { margin-bottom: 8px; }
+        .wishes p:last-child { margin-bottom: 0; }
+
+        .btn-container {
+            text-align: right;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255, 77, 109, 0.5); }
+
+        /* Смайлики */
+        .big-smiley {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            font-size: 7rem; z-index: 100; pointer-events: none; opacity: 0;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+        }
+        .big-smiley.animate { animation: popUp 1.5s ease-in-out forwards; }
+
+        @keyframes popUp {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-20deg); opacity: 0; }
+            20% { transform: translate(-50%, -50%) scale(1.1) rotate(10deg); opacity: 1; }
+            35% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+            80% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -100%) scale(0.5); opacity: 0; }
+        }
+
+        .sparkle { position: absolute; pointer-events: none; border-radius: 50%; animation: shoot 1s ease-out forwards; z-index: 5; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shoot { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; } }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .card {
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+            .left-side { flex: none; width: 100%; }
+            .photo-container { width: 260px; height: 260px; }
+            .btn-container { text-align: center; }
+            body { overflow-y: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-overlay">
+        <h2>Ксюшенька, тебе открытка от родителей! 🌸</h2>
+        <button class="btn" onclick="startEverything(event)">Открыть открытку ✉️</button>
+    </div>
+
+    <audio id="bg-music" src="music.mp3" loop></audio>
+    <button class="music-btn" id="music-toggle" onclick="toggleMusic()">⏸️</button>
+
+    <div class="big-smiley" id="smiley">🥰</div>
+
+    <div class="card">
+        <div class="left-side">
+            <div class="age-badge">ПРЕКРАСНЫЕ 17 ЛЕТ</div>
+            <div class="photo-container">
+                <img src="photo.jpg" alt="Ксюша">
+            </div>
+        </div>
+        
+        <div class="right-side">
+            <h1>Ксюшенька, доченька, пусть у тебя всё получится!</h1>
+            
+            <div class="wishes">
+                <p>✨ <strong>Верь в себя.</strong> Ксюша, ты невероятно умная, талантливая и целеустремленная девочка. Перед тобой открыт весь мир, и ты способна покорить любую вершину!</p>
+                <p>🌟 <strong>Мечтай смело.</strong> 17 лет — время вдохновения, больших планов и ярких открытий. Пусть каждый твой день приносит радость и приближает к заветным целям.</p>
+                <p>❤️ <strong>Помни о главном.</strong> Что бы ты ни выбрала, какой бы путь ни определила для себя, мы всегда рядом, любим тебя и безгранично в тебя верим.</p>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn" onclick="handleClick(event)">Нажми для улыбки! 🎉</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-toggle');
+        const welcomeOverlay = document.getElementById('welcome-overlay');
+
+        function startEverything(e) {
+            music.play().then(() => {
+                musicBtn.classList.add('playing');
+                musicBtn.innerText = '⏸️';
+            }).catch(err => {
+                console.log("Музыка заиграет после добавления файла music.mp3.");
+            });
+
+            welcomeOverlay.style.opacity = '0';
+            setTimeout(() => {
+                welcomeOverlay.style.visibility = 'hidden';
+            }, 800);
+
+            createConfetti(e);
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().catch(err => alert("Проверьте музыкальный файл."));
+                musicBtn.classList.add('playing');
+                musicBtn.innerText = '⏸️';
+            } else {
+                music.pause();
+                musicBtn.classList.remove('playing');
+                musicBtn.innerText = '🎵';
+            }
+        }
+
+        function handleClick(e) {
+            createConfetti(e);
+            showSmiley();
+        }
+
+        function showSmiley() {
+            const smileyDiv = document.getElementById('smiley');
+            const smileys = ['🥰', '❤️', '✨', '🌸', '☀️', '💖', '😻'];
+            smileyDiv.innerText = smileys[Math.floor(Math.random() * smileys.length)];
+            smileyDiv.classList.remove('animate');
+            void smileyDiv.offsetWidth; 
+            smileyDiv.classList.add('animate');
+        }
+
+        function createConfetti(e) {
+            const colors = ['#ff4d6d', '#ff758f', '#ff8fa3', '#ffb3c1', '#70e000', '#38b000'];
+            const startX = e.clientX || window.innerWidth / 2;
+            const startY = e.clientY || window.innerHeight / 2;
+
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                
+                const size = Math.random() * 8 + 4;
+                sparkle.style.width = `${size}px`;
+                sparkle.style.height = `${size}px`;
+                sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                sparkle.style.left = `${startX}px`;
+                sparkle.style.top = `${startY}px`;
+                sparkle.style.position = 'fixed';
+                
+                const mx = (Math.random() - 0.5) * 300;
+                const my = (Math.random() - 0.5) * 300 - 100;
+                sparkle.style.setProperty('--mx', `${mx}px`);
+                sparkle.style.setProperty('--my', `${my}px`);
+                
+                document.body.appendChild(sparkle);
+                setTimeout(() => { sparkle.remove(); }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
