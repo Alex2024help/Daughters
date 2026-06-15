@@ -143,13 +143,11 @@
             font-weight: 700; 
         }
 
-        /* ИЗМЕНЕНО: Обертка для праздничных декораций рамки */
         .photo-wrapper {
             position: relative;
-            padding: 8px; /* Место под свечение */
+            padding: 8px;
         }
 
-        /* ИЗМЕНЕНО: Новая праздничная окантовка с мерцающим неоновым градиентом */
         .photo-container {
             width: 280px;
             height: 350px;
@@ -159,7 +157,6 @@
             background: #fff;
             position: relative;
             z-index: 2;
-            /* Праздничное переливающееся свечение */
             box-shadow: 
                 0 0 0 3px rgba(255, 215, 0, 0.4), 
                 0 0 15px rgba(255, 77, 109, 0.4),
@@ -167,13 +164,11 @@
             animation: borderGlow 3s linear infinite alternate;
         }
 
-        /* Анимация пульсации праздничной рамки */
         @keyframes borderGlow {
             0% { box-shadow: 0 0 8px #ff8fa3, 0 0 15px rgba(255, 215, 0, 0.5); border-color: #fff; }
             100% { box-shadow: 0 0 15px #ff4d6d, 0 0 25px rgba(255, 215, 0, 0.8); border-color: #fff0f3; }
         }
 
-        /* Декоративные искорки-звездочки по углам рамки */
         .photo-wrapper::before, .photo-wrapper::after {
             content: '✨';
             position: absolute;
@@ -196,7 +191,6 @@
             background-color: #fafafa;
         }
 
-        /* Блок пожеланий */
         .wishes {
             font-size: 0.95rem;
             margin-bottom: 12px;
@@ -225,7 +219,6 @@
             box-shadow: 0 4px 12px rgba(255, 77, 109, 0.3);
         }
 
-        /* Смайлики */
         .big-smiley {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
             font-size: 6rem; z-index: 100; pointer-events: none; opacity: 0;
@@ -299,7 +292,7 @@
         <button class="btn" onclick="startEverything(event)">Открыть открытку ✉️</button>
     </div>
 
-    <audio id="bg-music" src="music.mp3" loop></audio>
+    <audio id="bg-music" src="music.mp3" loop preload="auto"></audio>
     <button class="music-btn" id="music-toggle" onclick="toggleMusic()">⏸️</button>
 
     <div class="big-smiley" id="smiley">🥰</div>
@@ -334,25 +327,29 @@
         const musicBtn = document.getElementById('music-toggle');
         const welcomeOverlay = document.getElementById('welcome-overlay');
 
+        // ИЗМЕНЕНО: Функция теперь жестко инициирует воспроизведение от первого тапа пользователя
         function startEverything(e) {
-            music.play().then(() => {
-                musicBtn.classList.add('playing');
-                musicBtn.innerText = '⏸️';
-            }).catch(err => {
-                console.log("Музыка начнет играть после добавления файла music.mp3.");
-            });
-
+            // Сначала скрываем заставку
             welcomeOverlay.style.opacity = '0';
             setTimeout(() => {
                 welcomeOverlay.style.visibility = 'hidden';
             }, 800);
 
+            // Запускаем конфетти
             createConfetti(e);
+
+            // Запускаем музыку. Поскольку это ответ на клик, телефон разрешит звук без ошибок
+            music.play().then(() => {
+                musicBtn.classList.add('playing');
+                musicBtn.innerText = '⏸️';
+            }).catch(err => {
+                console.log("Автовоспроизведение заблокировано или файл отсутствует:", err);
+            });
         }
 
         function toggleMusic() {
             if (music.paused) {
-                music.play().catch(err => alert("Проверьте музыкальный файл."));
+                music.play().catch(err => console.log(err));
                 musicBtn.classList.add('playing');
                 musicBtn.innerText = '⏸️';
             } else {
@@ -403,9 +400,6 @@
                 setTimeout(() => { sparkle.remove(); }, 1000);
             }
         }
-    </script>
-</body>
-</html>
     </script>
 </body>
 </html>
