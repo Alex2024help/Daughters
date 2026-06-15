@@ -1,9 +1,8 @@
-
 <DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Моей любимой Ксюшеньке</title>
     <style>
         :root {
@@ -11,6 +10,7 @@
             --secondary-color: #fff0f3;
             --text-color: #4a4a4a;
             --accent-color: #ff4d6d;
+            --gold-color: #ffd700;
         }
 
         * {
@@ -23,14 +23,19 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--secondary-color) 0%, #e0f2fe 100%);
             color: var(--text-color);
-            line-height: 1.5;
+            line-height: 1.4;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 15px;
+            min-height: -webkit-fill-available;
+            padding: 10px;
             position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
+        }
+
+        html {
+            height: -webkit-fill-available;
         }
 
         /* Стартовая заставка */
@@ -53,17 +58,17 @@
 
         #welcome-overlay h2 {
             color: var(--accent-color);
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 25px;
         }
 
-        /* Кнопка управления музыкой */
+        /* Кнопка музыки */
         .music-btn {
             position: fixed;
             top: 15px;
             right: 15px;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: white;
             border: none;
@@ -72,12 +77,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             z-index: 1000;
-            transition: transform 0.3s, background-color 0.3s;
         }
 
-        .music-btn:hover { transform: scale(1.1); }
         .music-btn.playing { animation: rotateMusic 4s linear infinite; background: var(--primary-color); }
 
         @keyframes rotateMusic {
@@ -85,14 +88,15 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Горизонтальная карточка */
+        /* Карточка открытки */
         .card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             border-radius: 24px;
-            padding: 25px;
-            max-width: 950px;
+            padding: 20px;
+            max-width: 900px;
             width: 100%;
+            max-height: 92vh;
             box-shadow: 0 10px 30px rgba(255, 143, 163, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.5);
             animation: fadeIn 1.5s ease-in-out;
@@ -100,16 +104,18 @@
             z-index: 10;
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
         }
 
-        /* Левая колонка с большим фото */
         .left-side {
-            flex: 0 0 320px;
+            flex: 0 0 290px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
         }
 
-        /* Правая колонка */
         .right-side {
             flex: 1;
             display: flex;
@@ -121,56 +127,86 @@
             display: inline-block;
             background: var(--primary-color);
             color: white;
-            padding: 5px 14px;
+            padding: 4px 12px;
             border-radius: 50px;
             font-weight: bold;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
             letter-spacing: 1px;
             box-shadow: 0 4px 10px rgba(255, 77, 109, 0.2);
         }
 
         h1 { 
             color: var(--accent-color); 
-            font-size: 1.7rem; 
-            margin-bottom: 12px; 
+            font-size: 1.5rem; 
+            margin-bottom: 8px; 
             font-weight: 700; 
         }
 
-        /* Большой круг для фото */
+        /* ИЗМЕНЕНО: Обертка для праздничных декораций рамки */
+        .photo-wrapper {
+            position: relative;
+            padding: 8px; /* Место под свечение */
+        }
+
+        /* ИЗМЕНЕНО: Новая праздничная окантовка с мерцающим неоновым градиентом */
         .photo-container {
-            width: 320px;
-            height: 320px;
-            margin: 0 auto;
-            border-radius: 50%;
-            border: 6px solid white;
-            box-shadow: 0 8px 25px rgba(255, 143, 163, 0.35);
+            width: 280px;
+            height: 350px;
+            border-radius: 16px;
+            border: 4px solid white;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background: #fff;
+            position: relative;
+            z-index: 2;
+            /* Праздничное переливающееся свечение */
+            box-shadow: 
+                0 0 0 3px rgba(255, 215, 0, 0.4), 
+                0 0 15px rgba(255, 77, 109, 0.4),
+                inset 0 0 10px rgba(0,0,0,0.05);
+            animation: borderGlow 3s linear infinite alternate;
+        }
+
+        /* Анимация пульсации праздничной рамки */
+        @keyframes borderGlow {
+            0% { box-shadow: 0 0 8px #ff8fa3, 0 0 15px rgba(255, 215, 0, 0.5); border-color: #fff; }
+            100% { box-shadow: 0 0 15px #ff4d6d, 0 0 25px rgba(255, 215, 0, 0.8); border-color: #fff0f3; }
+        }
+
+        /* Декоративные искорки-звездочки по углам рамки */
+        .photo-wrapper::before, .photo-wrapper::after {
+            content: '✨';
+            position: absolute;
+            font-size: 1.2rem;
+            z-index: 3;
+            animation: sparklePulse 2s infinite ease-in-out;
+        }
+        .photo-wrapper::before { top: 0; left: 0; }
+        .photo-wrapper::after { bottom: 0; right: 0; animation-delay: 1s; }
+
+        @keyframes sparklePulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 5px gold); }
         }
 
         .photo-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            /* ИЗМЕНЕНО: Опустили фото вниз на 10%, чтобы плакат ушел наверх, а лица Ксюши и мамы встали идеально */
-            object-position: center 10%; 
+            object-fit: contain;
+            background-color: #fafafa;
         }
 
         /* Блок пожеланий */
         .wishes {
             font-size: 0.95rem;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             background: rgba(255, 255, 255, 0.6);
-            padding: 18px;
+            padding: 15px;
             border-radius: 16px;
             border-left: 5px solid var(--primary-color);
         }
 
-        .wishes p { margin-bottom: 8px; }
+        .wishes p { margin-bottom: 6px; }
         .wishes p:last-child { margin-bottom: 0; }
 
         .btn-container {
@@ -181,49 +217,78 @@
             display: inline-block;
             background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
             color: white;
-            padding: 12px 25px;
+            padding: 10px 22px;
             border-radius: 50px;
-            text-decoration: none;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
             border: none;
+            box-shadow: 0 4px 12px rgba(255, 77, 109, 0.3);
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255, 77, 109, 0.5); }
 
         /* Смайлики */
         .big-smiley {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            font-size: 7rem; z-index: 100; pointer-events: none; opacity: 0;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+            font-size: 6rem; z-index: 100; pointer-events: none; opacity: 0;
         }
         .big-smiley.animate { animation: popUp 1.5s ease-in-out forwards; }
 
         @keyframes popUp {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(-20deg); opacity: 0; }
-            20% { transform: translate(-50%, -50%) scale(1.1) rotate(10deg); opacity: 1; }
-            35% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-            80% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-            100% { transform: translate(-50%, -100%) scale(0.5); opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            20% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -80%) scale(0.5); opacity: 0; }
         }
 
-        .sparkle { position: absolute; pointer-events: none; border-radius: 50%; animation: shoot 1s ease-out forwards; z-index: 5; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .sparkle { position: absolute; pointer-events: none; border-radius: 50%; animation: shoot 1s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes shoot { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; } }
 
-        /* Мобильная адаптация */
+        /* ОСОБЫЕ НАСТРОЙКИ ДЛЯ ТЕЛЕФОНОВ */
         @media (max-width: 768px) {
             .card {
                 flex-direction: column;
-                padding: 20px;
-                gap: 15px;
+                padding: 12px;
+                gap: 8px;
+                max-height: 96vh;
             }
-            .left-side { flex: none; width: 100%; }
-            .photo-container { width: 260px; height: 260px; }
+
+            .left-side { 
+                flex: none; 
+                width: 100%; 
+            }
+
+            .photo-wrapper {
+                padding: 4px;
+            }
+
+            .photo-container { 
+                width: 100%;
+                max-width: 210px; 
+                height: 230px; 
+            }
+
+            .photo-wrapper::before, .photo-wrapper::after {
+                font-size: 1rem;
+            }
+
+            h1 { 
+                font-size: 1.15rem; 
+                margin-bottom: 4px; 
+                line-height: 1.2;
+            }
+
+            .wishes { 
+                font-size: 0.8rem; 
+                padding: 10px; 
+                margin-bottom: 8px;
+                max-height: 35vh;
+                overflow-y: auto;
+            }
+
+            .wishes p { margin-bottom: 4px; }
+
             .btn-container { text-align: center; }
-            body { overflow-y: auto; }
+            .btn { padding: 8px 18px; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -242,8 +307,10 @@
     <div class="card">
         <div class="left-side">
             <div class="age-badge">ПРЕКРАСНЫЕ 17 ЛЕТ</div>
-            <div class="photo-container">
-                <img src="photo.jpg" alt="Ксюша">
+            <div class="photo-wrapper">
+                <div class="photo-container">
+                    <img src="photo.jpg" alt="Ксюша с мамой">
+                </div>
             </div>
         </div>
         
@@ -272,7 +339,7 @@
                 musicBtn.classList.add('playing');
                 musicBtn.innerText = '⏸️';
             }).catch(err => {
-                console.log("Музыка заиграет после добавления файла music.mp3.");
+                console.log("Музыка начнет играть после добавления файла music.mp3.");
             });
 
             welcomeOverlay.style.opacity = '0';
@@ -314,11 +381,11 @@
             const startX = e.clientX || window.innerWidth / 2;
             const startY = e.clientY || window.innerHeight / 2;
 
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 20; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.classList.add('sparkle');
                 
-                const size = Math.random() * 8 + 4;
+                const size = Math.random() * 5 + 3;
                 sparkle.style.width = `${size}px`;
                 sparkle.style.height = `${size}px`;
                 sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
@@ -327,8 +394,8 @@
                 sparkle.style.top = `${startY}px`;
                 sparkle.style.position = 'fixed';
                 
-                const mx = (Math.random() - 0.5) * 300;
-                const my = (Math.random() - 0.5) * 300 - 100;
+                const mx = (Math.random() - 0.5) * 180;
+                const my = (Math.random() - 0.5) * 180 - 40;
                 sparkle.style.setProperty('--mx', `${mx}px`);
                 sparkle.style.setProperty('--my', `${my}px`);
                 
@@ -336,6 +403,9 @@
                 setTimeout(() => { sparkle.remove(); }, 1000);
             }
         }
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
